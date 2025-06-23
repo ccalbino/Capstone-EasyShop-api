@@ -60,7 +60,7 @@ public class CategoriesController
             if(category == null)
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-            return category;
+            return categoryDao.getById(id);
         }
         catch(Exception ex)
         {
@@ -71,10 +71,18 @@ public class CategoriesController
     // the url to return all products in category 1 would look like this
     // https://localhost:8080/categories/1/products
     @GetMapping("{categoryId}/products")
+    @PreAuthorize("permitAll()")
     public List<Product> getProductsById(@PathVariable int categoryId)
     {
-        // get a list of product by categoryId
-        return null;
+       try{
+
+           return productDao.listByCategoryId(categoryId);
+
+       }
+       catch (Exception ex)
+       {
+           throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad");
+       }
     }
 
     // add annotation to call this method for a POST action
@@ -112,6 +120,8 @@ public class CategoriesController
 
     // add annotation to call this method for a DELETE action - the url path must include the categoryId
     // add annotation to ensure that only an ADMIN can call this function
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteCategory(@PathVariable int id)
     {
         try
