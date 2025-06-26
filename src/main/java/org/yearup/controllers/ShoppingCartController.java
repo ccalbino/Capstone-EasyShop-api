@@ -70,6 +70,7 @@ public class ShoppingCartController {
         try {
 
 
+
             String username = principal.getName();
             int userId = userDao.getIdByUsername(username);
             int newQuantity = cartItem.getQuantity();
