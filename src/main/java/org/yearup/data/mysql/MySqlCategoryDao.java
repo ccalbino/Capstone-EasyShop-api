@@ -20,11 +20,12 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
     public List<Category> getAllCategories() throws SQLException {
         ArrayList<Category> allCategories = new ArrayList<>();
         String sql = """
-                Select\s
+                SELECT\s
                 category_id
-                , name
-                , description
-                From categories
+                ,name
+                ,description
+                FROM\s
+                categories
                \s""";
 
 
@@ -48,14 +49,15 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
     public Category getById(int categoryId)
     {
         String sql = """
-                Select
+                SELECT
                 category_id
-                , name
-                , description
-                From categories
-                Where
+                ,name
+                ,description
+                FROM\s
+                categories
+                WHERE
                 category_id = ?
-                """;
+               \s""";
 
         try(Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -122,11 +124,12 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         String sql = """
                 UPDATE
                 name
-                , description
-                from
+                ,description
+                FROM
                 categories
-                Where category_id = ?
-                """;
+                WHERE\s
+                category_id = ?
+               \s""";
         // update category
         try(Connection connection = getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
